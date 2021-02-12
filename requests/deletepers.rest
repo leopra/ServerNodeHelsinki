@@ -1,1 +1,1 @@
-DELETE http://localhost:3001/api/persons/2
+DELETE https://blooming-ocean-50821.herokuapp.com/api/persons/1
