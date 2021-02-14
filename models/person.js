@@ -8,7 +8,7 @@ const url = process.env.MONGODB_URI
 console.log('connecting to', url)
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch((error) => {
@@ -24,12 +24,12 @@ const personSchema = new mongoose.Schema({
   },
   number: {
     type: String, unique: true, required: true,
-    validate: { validator: (k) => k.length > 8, message: props => `${props.value} is not a valid username`}
+    validate: { validator: (k) => k.length > 8, message: props => `${props.value} is not a valid username` }
   },
   date: Date,
 })
 
-personSchema.plugin(uniqueValidator);
+personSchema.plugin(uniqueValidator)
 
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
