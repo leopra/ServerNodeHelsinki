@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
+
 require('dotenv').config()
 
 const url = process.env.MONGODB_URI
@@ -13,11 +15,21 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     console.log('error connecting to MongoDB:', error.message)
   })
 
-  const personSchema = new mongoose.Schema({
-    name: String,
-    number: String,
-    date: Date,
+const personSchema = new mongoose.Schema({
+  name: {
+    type: String, required: true, unique: true,
+    validate: {
+      validator: (k) => k.length > 3, message: props => `${props.value} is not a valid username`
+    }
+  },
+  number: {
+    type: String, unique: true, required: true,
+    validate: { validator: (k) => k.length > 8, message: props => `${props.value} is not a valid username`}
+  },
+  date: Date,
 })
+
+personSchema.plugin(uniqueValidator);
 
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {

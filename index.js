@@ -25,7 +25,7 @@ app.get('/api/persons', (request, response, next) => {
 })
 
 app.get('/api/info', (request, response, next) => {
-    Person.count({}).then(c => {
+    Person.countDocuments({}).then(c => {
         const info = `Phonebook has info for ${c}`
         const time = new Date()
         response.setHeader('Content-type', 'text/html')
@@ -76,7 +76,9 @@ app.post('/api/persons', (request, response, next) => {
         pers.save().then(saved => {
             response.json(saved.toJSON())
         })
-            .catch(error => next(error))
+            .catch(error => {
+                next(error)
+            })
 
     }
 })
@@ -89,8 +91,11 @@ app.put('/api/persons/:id', (request, response, next) => {
         number: body.number,
         date: new Date()
     }
-
-    Person.findByIdAndUpdate(request.params.id, pers, { new: true })
+    console.log(pers)
+    Person.findByIdAndUpdate(request.params.id, pers, {
+        runValidators: true,
+        context: 'query', new: true
+    })
         .then(newpers => {
             response.json(newpers)
         })
@@ -98,24 +103,27 @@ app.put('/api/persons/:id', (request, response, next) => {
 })
 
 
-
-const unknownEndpoint = (request, response) => {
-    response.status(404).send({ error: 'unknown endpoint' })
-}
-
-app.use(unknownEndpoint)
-
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)
 
     if (error.name === 'CastError' && error.kind == 'ObjectId') {
         return response.status(400).send({ error: 'malformatted id' })
     }
+    else if (error.name === 'ValidationError') {
+        console.log('WWWWEQQWRQ', error.message)
+        return response.status(400).json({ error: error.message })
+    }
 
     next(error)
 }
 
 app.use(errorHandler)
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 const PORT = process.env.PORT || 3001
 

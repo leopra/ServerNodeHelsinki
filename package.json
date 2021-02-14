@@ -28,6 +28,7 @@
     "express": "^4.17.1",
     "heroku": "^7.47.12",
     "mongoose": "^5.11.16",
+    "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.10.0"
   }
 }
