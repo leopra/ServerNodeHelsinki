@@ -6,3 +6,13 @@ content-type: application/json
     "name": "affffffffa",
     "number": "333 939393"
 }
+
+###
+
+PUT http://localhost:3002/api/persons/602901507ac9a4b7cabf722e
+content-type: application/json
+
+{
+    "name": "CHANGED",
+    "number": "333333333333"
+}
