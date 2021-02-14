@@ -1,8 +1,8 @@
-#POST http://localhost:3001/api/persons
-POST https://blooming-ocean-50821.herokuapp.com/api/persons
+#POST https://blooming-ocean-50821.herokuapp.com/api/persons
+POST http://localhost:3002/api/persons
 content-type: application/json
 
 {
-    "name": "gian fra",
+    "name": "affffffffa",
     "number": "333 939393"
 }

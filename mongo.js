@@ -6,9 +6,6 @@ if (process.argv.length < 3) {
 }
 
 
-
-
-
 const password = process.argv[2]
 
 
